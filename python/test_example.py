@@ -1,3 +1,4 @@
+from __future__ import annotations
 import re
 from playwright.sync_api import Page, expect
 
@@ -23,16 +24,16 @@ class Homepage:
     def __init__(self, page: Page):
         self.page = page
     
-    def accept_cookies(self) -> 'Homepage':
+    def accept_cookies(self) -> Homepage:
         self.page.get_by_role("button", name="Accept").click()
         return self
     
-    def close_privacy_policy(self) -> 'Homepage':
+    def close_privacy_policy(self) -> Homepage:
         policy_iframe = self.page.frame_locator("iframe[title='Popup CTA']")
         policy_iframe.locator(".button-container").click()
         return self
     
-    def pick_secure_exchange_solution(self) -> 'SecureExchange':
+    def pick_secure_exchange_solution(self) -> SecureExchange:
         nav = self.page.get_by_role("navigation")
         nav.get_by_role("button", name="Solutions").hover()
         nav.get_by_role("link", name="SecureExchange").click()
@@ -40,7 +41,7 @@ class Homepage:
         return SecureExchange(self.page)
     
     @staticmethod
-    def navigate(page: Page) -> 'Homepage':
+    def navigate(page: Page) -> Homepage:
         page.goto("https://dswiss.com/en")
         expect(page).to_have_title(re.compile("We make your business processes simple and secure", re.IGNORECASE))
         return Homepage(page)
@@ -50,12 +51,12 @@ class SecureExchange:
     def __init__(self, page: Page):
         self.page = page
     
-    def go_to_inquiry_form(self) -> 'SecureExchange':
+    def go_to_inquiry_form(self) -> SecureExchange:
         # TODO
         return self
     
     def submit_inquiry_form(
         self, first_name, last_name, email, phone_number, message,
-    ) -> 'SecureExchange':
+    ) -> SecureExchange:
         # TODO
         return self
